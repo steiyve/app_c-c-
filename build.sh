@@ -1,2 +1,3 @@
-#!bin/bash
-g++ -o myprogram main.cpp -lcomctl32
+#!/bin/bash
+g++ -o build/myprogram main.cpp -lcomctl32
+./build/myprogram
