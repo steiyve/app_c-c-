@@ -8,6 +8,8 @@
 #include <windows.h>
 #include <string>
 #include <iostream>
+#include "src/login.cpp"
+#include "src/home.cpp"
 
 using namespace std;
 
@@ -25,15 +27,22 @@ LRESULT CALLBACK WindowProcedure(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lpar
                 char buffer[256];
                 char buffer2[256];
                 char buffer3[256] = "\n";
+                bool loginvar = false;
                 HWND hEdit1 = GetDlgItem(hwnd, 1); // Get the handle of the edit control
                 HWND hEdit2 = GetDlgItem(hwnd, 2); // Get the handle of the edit control
                 GetWindowTextA(hEdit1, buffer, 256); // Get text from the edit control
                 GetWindowTextA(hEdit2, buffer2, 256); // Get text from the edit control
+                loginvar = login(string(buffer), string(buffer2)); // call login function
 
-                // concatenate strings
-                string final_string = string(buffer) + string(buffer3) + string(buffer2);
+                if (loginvar == true){
+                    // concatenate strings
+                    string final_string = string(buffer) + string(buffer3) + string(buffer2);
 
-                MessageBoxA(NULL, final_string.c_str(), "Input", MB_OK); // Display the text in a message box
+                    MessageBoxA(NULL, final_string.c_str(), "Input", MB_OK); // Display the text in a message box
+                }
+                else{
+                    MessageBoxA(NULL, "Login failed!", "Input", MB_OK); // Display the text in a message box
+                }
             }
             break;
         default:
@@ -85,9 +94,14 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE, LPSTR, int nCmdShow)
         return 0;
     }
 
+    // deuxieme fenetre pour register
+
+
+
     ShowWindow(hwnd, nCmdShow);
     UpdateWindow(hwnd);
 
+    createWindow();
     MSG msg = { };
     while (GetMessage(&msg, NULL, 0, 0))
     {
